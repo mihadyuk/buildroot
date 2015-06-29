@@ -45,33 +45,33 @@ Index: b/libstdc++-v3/include/bits/basic_string.h
 ===================================================================
 --- a/libstdc++-v3/include/bits/basic_string.h
 +++ b/libstdc++-v3/include/bits/basic_string.h
-@@ -2828,7 +2828,7 @@
+@@ -5239,7 +5239,7 @@
  _GLIBCXX_END_NAMESPACE_VERSION
  } // namespace
  
--#if ((__cplusplus >= 201103L) && defined(_GLIBCXX_USE_C99) \
-+#if ((__cplusplus >= 201103L) && (defined(_GLIBCXX_USE_C99) || defined(__UCLIBC__)) \
-      && !defined(_GLIBCXX_HAVE_BROKEN_VSWPRINTF))
+-#if __cplusplus >= 201103L && defined(_GLIBCXX_USE_C99)
++#if __cplusplus >= 201103L && (defined(_GLIBCXX_USE_C99) || defined(__UCLIBC__))
  
  #include <ext/string_conversions.h>
+ 
 Index: b/libstdc++-v3/include/bits/locale_facets.tcc
 ===================================================================
 --- a/libstdc++-v3/include/bits/locale_facets.tcc
 +++ b/libstdc++-v3/include/bits/locale_facets.tcc
-@@ -987,7 +987,7 @@
+@@ -992,7 +992,7 @@
  	char __fbuf[16];
  	__num_base::_S_format_float(__io, __fbuf, __mod);
  
 -#ifdef _GLIBCXX_USE_C99
 +#if defined(_GLIBCXX_USE_C99) || defined(__UCLIBC__)
- 	// First try a buffer perhaps big enough (most probably sufficient
- 	// for non-ios_base::fixed outputs)
- 	int __cs_size = __max_digits * 3;
+ 	// Precision is always used except for hexfloat format.
+ 	const bool __use_prec =
+ 	  (__io.flags() & ios_base::floatfield) != ios_base::floatfield;
 Index: b/libstdc++-v3/include/bits/locale_facets_nonio.tcc
 ===================================================================
 --- a/libstdc++-v3/include/bits/locale_facets_nonio.tcc
 +++ b/libstdc++-v3/include/bits/locale_facets_nonio.tcc
-@@ -572,7 +572,7 @@
+@@ -578,7 +578,7 @@
      {
        const locale __loc = __io.getloc();
        const ctype<_CharT>& __ctype = use_facet<ctype<_CharT> >(__loc);
@@ -110,7 +110,7 @@ Index: b/libstdc++-v3/include/c_global/cstdlib
 ===================================================================
 --- a/libstdc++-v3/include/c_global/cstdlib
 +++ b/libstdc++-v3/include/c_global/cstdlib
-@@ -182,7 +182,7 @@
+@@ -195,7 +195,7 @@
  _GLIBCXX_END_NAMESPACE_VERSION
  } // namespace
  
@@ -158,7 +158,7 @@ Index: b/libstdc++-v3/include/c_std/cstdlib
 ===================================================================
 --- a/libstdc++-v3/include/c_std/cstdlib
 +++ b/libstdc++-v3/include/c_std/cstdlib
-@@ -180,7 +180,7 @@
+@@ -192,7 +192,7 @@
  _GLIBCXX_END_NAMESPACE_VERSION
  } // namespace
  
