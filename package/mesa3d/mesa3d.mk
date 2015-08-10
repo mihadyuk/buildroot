@@ -5,7 +5,7 @@
 ################################################################################
 
 # When updating the version, please also update mesa3d-headers
-MESA3D_VERSION = 10.6.1
+MESA3D_VERSION = 10.6.3
 MESA3D_SOURCE = mesa-$(MESA3D_VERSION).tar.xz
 MESA3D_SITE = ftp://ftp.freedesktop.org/pub/mesa/$(MESA3D_VERSION)
 MESA3D_LICENSE = MIT, SGI, Khronos
@@ -85,9 +85,16 @@ MESA3D_CONF_OPTS += \
 	--with-gallium-drivers=$(subst $(space),$(comma),$(MESA3D_GALLIUM_DRIVERS-y))
 endif
 
+define MESA3D_REMOVE_OPENGL_PC
+	rm -f $(STAGING_DIR)/usr/lib/pkgconfig/dri.pc
+	rm -f $(STAGING_DIR)/usr/lib/pkgconfig/gl.pc
+	rm -rf $(STAGING_DIR)/usr/include/GL/
+endef
+
 ifeq ($(BR2_PACKAGE_MESA3D_DRI_DRIVER),)
 MESA3D_CONF_OPTS += \
-	--without-dri-drivers --without-dri --disable-dri3
+	--without-dri-drivers --disable-dri --disable-dri3
+MESA3D_POST_INSTALL_STAGING_HOOKS += MESA3D_REMOVE_OPENGL_PC
 else
 ifeq ($(BR2_PACKAGE_XPROTO_DRI3PROTO),y)
 MESA3D_DEPENDENCIES += xlib_libxshmfence xproto_dri3proto xproto_presentproto
@@ -110,8 +117,13 @@ endif
 
 # Always enable OpenGL:
 #   - it is needed for GLES (mesa3d's ./configure is a bit weird)
-#   - but if no DRI driver is enabled, then libgl is not built
+#   - but if no DRI driver is enabled, then libgl is not built,
+#     remove dri.pc and gl.pc in this case (MESA3D_REMOVE_OPENGL_PC)
 MESA3D_CONF_OPTS += --enable-opengl
+
+# libva and mesa3d have a circular dependency
+# we do not need libva support in mesa3d, therefore disable this option
+MESA3D_CONF_OPTS += --disable-va
 
 ifeq ($(BR2_PACKAGE_MESA3D_OPENGL_EGL),y)
 MESA3D_PROVIDES += libegl

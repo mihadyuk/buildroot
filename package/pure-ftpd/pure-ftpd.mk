@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PURE_FTPD_VERSION = 1.0.41
+PURE_FTPD_VERSION = 1.0.42
 PURE_FTPD_SITE = http://download.pureftpd.org/pub/pure-ftpd/releases
 PURE_FTPD_SOURCE = pure-ftpd-$(PURE_FTPD_VERSION).tar.bz2
 PURE_FTPD_LICENSE = ISC
@@ -31,6 +31,10 @@ PURE_FTPD_CONF_ENV += LIBS='-lssl -lcrypto -lz'
 endif
 else
 PURE_FTPD_CONF_OPTS += --without-tls
+endif
+
+ifeq ($(BR2_arc),y)
+PURE_FTPD_CONF_ENV += ax_cv_check_cflags___fPIE=no ax_cv_check_ldflags___fPIE=no
 endif
 
 $(eval $(autotools-package))
