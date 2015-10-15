@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-FFMPEG_VERSION = 2.8
-FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.bz2
+FFMPEG_VERSION = 2.8.1
+FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.xz
 FFMPEG_SITE = http://ffmpeg.org/releases
 FFMPEG_INSTALL_STAGING = YES
 
@@ -41,6 +41,8 @@ FFMPEG_CONF_OPTS = \
 	--enable-runtime-cpudetect \
 	--disable-hardcoded-tables \
 	--disable-memalign-hack \
+	--disable-mipsdspr1 \
+	--disable-mipsdspr2 \
 	--disable-msa \
 	--enable-hwaccels \
 	--disable-avisynth \
@@ -51,13 +53,9 @@ FFMPEG_CONF_OPTS = \
 	--disable-libdc1394 \
 	--disable-libfaac \
 	--disable-libgsm \
-	--disable-libmp3lame \
 	--disable-libnut \
 	--disable-libopenjpeg \
-	--disable-librtmp \
 	--disable-libschroedinger \
-	--disable-libspeex \
-	--disable-libtheora \
 	--disable-libvo-aacenc \
 	--disable-libvo-amrwbenc \
 	--disable-symver \
@@ -234,6 +232,62 @@ else
 FFMPEG_CONF_OPTS += --disable-libvpx
 endif
 
+ifeq ($(BR2_PACKAGE_LIBASS),y)
+FFMPEG_CONF_OPTS += --enable-libass
+FFMPEG_DEPENDENCIES += libass
+else
+FFMPEG_CONF_OPTS += --disable-libass
+endif
+
+ifeq ($(BR2_PACKAGE_LIBBLURAY),y)
+FFMPEG_CONF_OPTS += --enable-libbluray
+FFMPEG_DEPENDENCIES += libbluray
+else
+FFMPEG_CONF_OPTS += --disable-libbluray
+endif
+
+ifeq ($(BR2_PACKAGE_RTMPDUMP),y)
+FFMPEG_CONF_OPTS += --enable-librtmp
+FFMPEG_DEPENDENCIES += rtmpdump
+else
+FFMPEG_CONF_OPTS += --disable-librtmp
+endif
+
+ifeq ($(BR2_PACKAGE_LAME),y)
+FFMPEG_CONF_OPTS += --enable-libmp3lame
+FFMPEG_DEPENDENCIES += lame
+else
+FFMPEG_CONF_OPTS += --disable-libmp3lame
+endif
+
+ifeq ($(BR2_PACKAGE_LIBMODPLUG),y)
+FFMPEG_CONF_OPTS += --enable-libmodplug
+FFMPEG_DEPENDENCIES += libmodplug
+else
+FFMPEG_CONF_OPTS += --disable-libmodplug
+endif
+
+ifeq ($(BR2_PACKAGE_SPEEX),y)
+FFMPEG_CONF_OPTS += --enable-libspeex
+FFMPEG_DEPENDENCIES += speex
+else
+FFMPEG_CONF_OPTS += --disable-libspeex
+endif
+
+ifeq ($(BR2_PACKAGE_LIBTHEORA),y)
+FFMPEG_CONF_OPTS += --enable-libtheora
+FFMPEG_DEPENDENCIES += libtheora
+else
+FFMPEG_CONF_OPTS += --disable-libtheora
+endif
+
+ifeq ($(BR2_PACKAGE_WAVPACK),y)
+FFMPEG_CONF_OPTS += --enable-libwavpack
+FFMPEG_DEPENDENCIES += wavpack
+else
+FFMPEG_CONF_OPTS += --disable-libwavpack
+endif
+
 # ffmpeg freetype support require fenv.h which is only
 # available/working on glibc.
 # The microblaze variant doesn't provide the needed exceptions
@@ -353,16 +407,6 @@ FFMPEG_CONF_OPTS += \
 else
 FFMPEG_CONF_OPTS += \
 	--disable-mips32r2
-endif
-
-ifeq ($(BR2_mips_64r2),y)
-FFMPEG_CONF_OPTS += \
-	--enable-mipsdspr1 \
-	--enable-mipsdspr2
-else
-FFMPEG_CONF_OPTS += \
-	--disable-mipsdspr1 \
-	--disable-mipsdspr2
 endif
 
 ifeq ($(BR2_POWERPC_CPU_HAS_ALTIVEC),y)
