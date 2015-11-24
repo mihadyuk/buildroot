@@ -9,7 +9,7 @@ ethprime=FEC
 loadaddr=0x12000000
 loadbootscript=ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};
 loaduimage=ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}
-mmcargs=setenv bootargs console=${console},${baudrate} root=${mmcroot}
+mmcargs=setenv bootargs console=${console},${baudrate} root=${mmcroot} init=/bin/sh
 mmcboot=echo Booting from mmc ...; run mmcargs;  bootm; 
 mmcdev=0
 mmcpart=1
