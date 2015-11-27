@@ -17,4 +17,5 @@
 #mmcblk1p1 - dest eMMC partition.
 mount /dev/mmcblk0p2 /mnt
 dd if=/mnt/rootfs.ext2 of=/dev/mmcblk1p1
+sync
 umount /mnt
