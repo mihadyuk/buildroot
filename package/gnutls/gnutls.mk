@@ -17,6 +17,7 @@ GNUTLS_CONF_OPTS = \
 	--disable-libdane \
 	--disable-rpath \
 	--enable-local-libopts \
+	--enable-openssl-compatibility \
 	--with-libnettle-prefix=$(STAGING_DIR)/usr \
 	--with-librt-prefix=$(STAGING_DIR) \
 	--without-tpm
@@ -42,6 +43,12 @@ GNUTLS_CONF_OPTS += \
 # Consider crywrap as part of tools because it needs WCHAR, and it's so too
 ifeq ($(BR2_PACKAGE_GNUTLS_TOOLS),)
 GNUTLS_CONF_OPTS += --disable-crywrap
+endif
+
+# Prerequisite for crywrap
+ifeq ($(BR2_PACKAGE_ARGP_STANDALONE),y)
+GNUTLS_CONF_ENV += LIBS="-largp"
+GNUTLS_DEPENDENCIES += argp-standalone
 endif
 
 # libidn support for nommu must exclude the crywrap wrapper (uses fork)
