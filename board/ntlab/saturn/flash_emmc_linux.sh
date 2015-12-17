@@ -16,15 +16,16 @@
 #mmcblk0p2 - source partition is located on external microsd.
 #mmcblk1p1 - dest eMMC partition.
 mkdir /tmp/dst_part
-mkdir /tmp/src_image
+#mkdir /tmp/src_image
 mount /dev/mmcblk1p1 /tmp/dst_part
-mount /dev/mmcblk0p2 /tmp/src_image
+#mount /dev/mmcblk0p2 /tmp/src_image
 
-tar xf /tmp/src_image/rootfs.tar -C /tmp/dst_part
+#tar xf /tmp/src_image/rootfs.tar -C /tmp/dst_part
+tar xf rootfs.tar -C /tmp/dst_part
 
 umount /tmp/dst_part
-umount /tmp/src_image
+#umount /tmp/src_image
 
 rm -rf /tmp/dst_part
-rm -rf /tmp/src_image
+#rm -rf /tmp/src_image
 
