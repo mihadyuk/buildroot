@@ -1,5 +1,5 @@
 #!/bin/bash
-dst_dir=/home/user/workspace/buildroot-ntl/output-saturn
+dst_dir=/home/user/build/output-saturn
 
 function copy() {
    echo "copying $1 to $2"
