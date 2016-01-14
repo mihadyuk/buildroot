@@ -1,6 +1,6 @@
 baudrate=115200
 bootcmd=mmc dev ${mmcdev}; if mmc rescan; then if run loadbootscript; then run bootscript; else if run loaduimage; then run mmcboot; else run netboot; fi; fi; else run netboot; fi
-bootdelay=3
+bootdelay=1
 bootscript=echo Running bootscript from mmc ...; source
 console=ttymxc0
 ethact=FEC
