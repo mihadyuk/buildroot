@@ -10,8 +10,12 @@ sudo rm -Rf /mnt/*
 sudo tar xf images/rootfs.tar -C /mnt
 
 #copy scripts to flash emmc
-sudo cp flash_emmc_linux.sh /mnt/root
-sudo cp flash_emmc_uboot.sh /mnt/root
+sudo cp flash_emmc_linux.sh      /mnt/root
+sudo cp flash_emmc_uboot.sh      /mnt/root
+sudo cp S01mount-second-drive.sh /mnt/root
+
+#create dir for logs, data, etc
+sudo mkdir -p /mnt/disk-data
 
 #copy neccesary files to flash onto emmc
 sudo cp images/u-boot.imx           /mnt/root
