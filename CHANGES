@@ -1,3 +1,15 @@
+2016.02, Released March 1st, 2016
+
+	Minor fixes, mostly security related.
+
+	Circular dependency issue with same-as-kernel linux-headers
+	option fixed.
+
+	Updated/fixed packages: bluez5_utils, heirloom-mailx,
+	imx-gpu-viv, kodi-pvr-argustv, kodi-pvr-mediaportal-tvserver,
+	kodi-pvr-nextpvr, libfcgi, openssl, pifmrds, powerpc-utils,
+	python-m2crypto, slang, sox, squid, tn5250, xerces, zsh
+
 2016.02-rc3, Released February 27th, 2016
 
 	Fixes all over the tree.
@@ -66,6 +78,11 @@
 	i.MX6UL Evaluation Kit, Intel Galileo Gen 2, Orange Pi PC.
 	A number of defconfigs have been extended to generate complete
 	system images using genimage.
+
+	Linux: Automatically patch timeconst.pl for <3.9 kernels,
+	which isn't compatible with modern perl versions, breaking the
+	build when building on recent (Fedora 23, Debian
+	Testing/Unstable, ..) distributions.
 
 	Makedevs utility now accepts textual (non-numerical) user and
 	group names.
