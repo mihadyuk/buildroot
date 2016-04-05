@@ -127,7 +127,7 @@
 		
 		pinctrl_misc_gpios: miscgpios {
 			fsl,pins = <
-				MX6QDL_PAD_DISP0_DAT14__GPIO5_IO08 0x180B1 //OUT_IO_1
+				MX6QDL_PAD_DISP0_DAT14__GPIO5_IO08 0x180B1 //OUT_IO_1 1<<16 | 2<<6|6<<3|1<<0|2<<14
 				MX6QDL_PAD_DISP0_DAT15__GPIO5_IO09 0x180B1 //OUT_IO_2
 				MX6QDL_PAD_DISP0_DAT16__GPIO5_IO10 0x180B1 //OUT_IO_3
 				MX6QDL_PAD_DISP0_DAT17__GPIO5_IO11 0x180B1 //OUT_IO_4
@@ -152,6 +152,9 @@
 				
 				MX6QDL_PAD_GPIO_16__GPIO7_IO11  0x180B1 //gpio_res_9
 				MX6QDL_PAD_GPIO_17__GPIO7_IO12  0x180B1 //gpio_res_10
+				
+														 //0x100B1 - 1<<16 | 2 << 6 | 6 << 3 | 1<< 0 
+				MX6QDL_PAD_KEY_COL2__ECSPI1_SS1 0x0100B1 //used for memory purposes. see pinout.ods for details.
 			>;
 		};
 	};
