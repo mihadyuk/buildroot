@@ -4,7 +4,7 @@
 
 / {
 	model = "Saturn board";
-	compatible = "wand,imx6q-wandboard", "fsl,imx6q";
+	compatible = "fsl,imx6q";
 
 	memory {
 		reg = <0x10000000 0x80000000>;
@@ -39,7 +39,7 @@
 &iomuxc {
 	pinctrl-names = "default";
 
-	imx6qdl-wandboard {
+	imx6qdl-saturn {
 
         pinctrl_uart1: uart1grp {
 			fsl,pins = <
