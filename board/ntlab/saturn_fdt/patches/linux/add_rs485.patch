@@ -1,5 +1,5 @@
 diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
-index 01aa52f..665c7f0 100644
+index 01aa52f..e37ce76 100644
 --- a/drivers/tty/serial/imx.c
 +++ b/drivers/tty/serial/imx.c
 @@ -43,6 +43,7 @@
@@ -55,7 +55,7 @@ index 01aa52f..665c7f0 100644
  	if (of_get_property(np, "fsl,dte-mode", NULL))
  		sport->dte_mode = 1;
  
-+	rs485_txen = gpiod_get(sport->port.dev, "rs485_txen", GPIOD_OUT_LOW);
++	rs485_txen = gpiod_get(&pdev->dev, "rs485_txen", GPIOD_OUT_LOW);
 +	if (IS_ERR(rs485_txen)) {
 +		sport->gpio_rs485_txen = 0;
 +	}
