@@ -6,8 +6,10 @@ function remove-uboot() {
 
 
 wandboard_file=wandboard.c
-wandboard_fullpath=build/uboot-saturn/board/wandboard
+wandboard_fullpath=build/uboot-saturn_2016.03/board/wandboard
 wandboard_fullpath_file=$wandboard_fullpath/$wandboard_file
+uboot_patch_dir=/home/user/workspace/buildroot-ntl/board/ntlab/saturn_fdt/patches/u-boot
+
 echo $wandboard_file
 echo $wandboard_fullpath_file
 
@@ -15,7 +17,7 @@ echo $wandboard_fullpath_file
 cp $wandboard_fullpath_file /tmp/
 
 #apply patch to change settings for eMMC and rebuild
-patch $wandboard_fullpath_file 0001-saturn-Changed-config-to-use-on-eMMC.patch
+patch $wandboard_fullpath_file $uboot_patch_dir/fix-emmc-init-order.patch
 remove-uboot
 make uboot-rebuild
 
