@@ -1,0 +1,21 @@
+baudrate=115200
+boot_fdt=try
+bootcmd= mmc dev ${mmcdev}; if mmc rescan; then if run loadbootscript; then run bootscript; else if run loadimage; then run mmcboot; else run netboot; fi; fi; else run netboot; fi
+bootdelay=3
+bootscript=echo Running bootscript from mmc ...; source
+console=ttymxc0
+loadaddr=0x12000000
+fdt_addr=0x18000000
+fdt_high=0xffffffff
+fdtfile=imx6q-saturn.dtb
+loadfdt=ext2load mmc ${mmcdev}:${mmcpart} ${fdt_addr} /boot/${fdtfile}
+loadbootscript=ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};
+loadimage=ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}
+mmcargs=setenv bootargs console=${console},${baudrate} root=${mmcroot}
+mmcboot=echo Booting from mmc ...; run mmcargs; run loadfdt; bootz ${loadaddr} - ${fdt_addr};
+mmcdev=0
+mmcpart=1
+mmcroot=/dev/mmcblk0p1 rootwait rw earlyprintk
+script=boot/boot.scr
+image=boot/zImage
+
