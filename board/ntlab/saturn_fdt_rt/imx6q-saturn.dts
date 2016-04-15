@@ -1,0 +1,221 @@
+/dts-v1/;
+#include "imx6q.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "Saturn board";
+	compatible = "fsl,imx6q";
+
+	memory {
+		reg = <0x10000000 0x80000000>;
+	};
+
+    regulators {
+	compatible = "simple-bus";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+		reg_2p5v: regulator@0 {
+			compatible = "regulator-fixed";
+			reg = <0>;
+			regulator-name = "2P5V";
+			regulator-min-microvolt = <2500000>;
+			regulator-max-microvolt = <2500000>;
+			regulator-always-on;
+		};
+
+		reg_3p3v: regulator@1 {
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "3P3V";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};
+	};
+
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+
+	imx6qdl-saturn {
+
+        pinctrl_uart1: uart1grp {
+			fsl,pins = <
+				MX6QDL_PAD_CSI0_DAT10__UART1_TX_DATA	0x1b0b1
+				MX6QDL_PAD_CSI0_DAT11__UART1_RX_DATA	0x1b0b1
+				MX6QDL_PAD_EIM_D20__UART1_RTS_B			0x1b0b1
+				MX6QDL_PAD_EIM_D19__UART1_CTS_B			0x1b0b1
+			>;
+		};
+		
+		pinctrl_uart2: uart2grp {
+			fsl,pins = <
+				MX6QDL_PAD_GPIO_7__UART2_TX_DATA	    0x1b0b1
+				MX6QDL_PAD_GPIO_8__UART2_RX_DATA		0x1b0b1
+			>;
+		};
+		
+		pinctrl_uart3: uart3grp {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_D24__UART3_TX_DATA	0x1b0b1
+				MX6QDL_PAD_EIM_D25__UART3_RX_DATA	0x1b0b1
+			>;
+		};
+		
+		pinctrl_uart4: uart4grp {
+			fsl,pins = <
+				MX6QDL_PAD_CSI0_DAT12__UART4_TX_DATA	0x1b0b1
+				MX6QDL_PAD_CSI0_DAT13__UART4_RX_DATA	0x1b0b1
+			>;
+		};
+		
+		pinctrl_uart5: uart5grp {
+			fsl,pins = <
+				MX6QDL_PAD_CSI0_DAT14__UART5_TX_DATA	0x1b0b1
+				MX6QDL_PAD_CSI0_DAT15__UART5_RX_DATA	0x1b0b1
+				//MX6QDL_PAD_EIM_D19__UART1_CTS_B		0x1b0b1
+				MX6QDL_PAD_CSI0_DAT19__GPIO6_IO05		0x180B1 //0x1b0b1
+			>;
+		};
+
+		pinctrl_usdhc1: usdhc1grp {
+			fsl,pins = <
+				MX6QDL_PAD_SD1_CMD__SD1_CMD			0x17059
+				MX6QDL_PAD_SD1_CLK__SD1_CLK			0x10059
+				MX6QDL_PAD_SD1_DAT0__SD1_DATA0		0x17059
+				MX6QDL_PAD_SD1_DAT1__SD1_DATA1		0x17059
+				MX6QDL_PAD_SD1_DAT2__SD1_DATA2		0x17059
+				MX6QDL_PAD_SD1_DAT3__SD1_DATA3		0x17059
+				MX6QDL_PAD_GPIO_1__SD1_CD_B			0x17059
+				MX6QDL_PAD_GPIO_9__SD1_WP			0x17059
+			>;
+		};
+
+		pinctrl_usdhc3: usdhc3grp {
+			fsl,pins = <
+				MX6QDL_PAD_SD3_CMD__SD3_CMD			0x17059
+				MX6QDL_PAD_SD3_CLK__SD3_CLK			0x10059
+				MX6QDL_PAD_SD3_DAT0__SD3_DATA0		0x17059
+				MX6QDL_PAD_SD3_DAT1__SD3_DATA1		0x17059
+				MX6QDL_PAD_SD3_DAT2__SD3_DATA2		0x17059
+				MX6QDL_PAD_SD3_DAT3__SD3_DATA3		0x17059
+				MX6QDL_PAD_SD3_DAT4__SD3_DATA4		0x17059
+				MX6QDL_PAD_SD3_DAT5__SD3_DATA5		0x17059
+				MX6QDL_PAD_SD3_DAT6__SD3_DATA6		0x17059
+				MX6QDL_PAD_SD3_DAT7__SD3_DATA7		0x17059
+				MX6QDL_PAD_SD3_RST__SD3_RESET		0x17059
+				MX6QDL_PAD_GPIO_18__SD3_VSELECT		0x17059
+			>;
+		};
+		
+		pinctrl_stim300: stim300grp {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_BCLK__GPIO6_IO31		0x180B1 //TOV - input
+				MX6QDL_PAD_GPIO_19__GPIO4_IO05 		0x180B1 //ExtTrig - output. 1
+				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30   0x180B1 //Reset - output.   1
+			>;
+		};
+		
+		pinctrl_gps: gpsgrp {
+			fsl,pins = <
+				MX6QDL_PAD_DISP0_DAT12__GPIO5_IO06  0x180B1 //PPS_1 input
+				MX6QDL_PAD_DISP0_DAT13__GPIO5_IO07  0x180B1 //PPS_2 input
+			>;
+		};
+		
+		pinctrl_misc_gpios: miscgpios {
+			fsl,pins = <
+				MX6QDL_PAD_DISP0_DAT14__GPIO5_IO08 0x180B1 //OUT_IO_1 1<<16 | 2<<6|6<<3|1<<0|2<<14
+				MX6QDL_PAD_DISP0_DAT15__GPIO5_IO09 0x180B1 //OUT_IO_2
+				MX6QDL_PAD_DISP0_DAT16__GPIO5_IO10 0x180B1 //OUT_IO_3
+				MX6QDL_PAD_DISP0_DAT17__GPIO5_IO11 0x180B1 //OUT_IO_4
+				MX6QDL_PAD_DISP0_DAT18__GPIO5_IO12 0x180B1 //OUT_RST
+				
+				MX6QDL_PAD_EIM_A25__GPIO5_IO02 0x180B1 //mpu9250 int
+				MX6QDL_PAD_EIM_D23__GPIO3_IO23 0x180B1 //fsync
+				
+				MX6QDL_PAD_DISP0_DAT5__GPIO4_IO26 0x180B1 //ADIS DIO1
+				MX6QDL_PAD_DISP0_DAT6__GPIO4_IO27 0x180B1 //ADIS DIO2
+				MX6QDL_PAD_DISP0_DAT7__GPIO4_IO28 0x180B1 //ADIS DIO3
+				
+				MX6QDL_PAD_EIM_D26__GPIO3_IO26 0x180B1 //gpio_res_1
+				MX6QDL_PAD_EIM_D27__GPIO3_IO27 0x180B1 //gpio_res_2
+				MX6QDL_PAD_EIM_D30__GPIO3_IO30 0x180B1 //gpio_res_3
+				MX6QDL_PAD_EIM_D31__GPIO3_IO31 0x180B1 //gpio_res_4
+				
+				MX6QDL_PAD_GPIO_0__GPIO1_IO00  0x180B1 //gpio_res_5
+				MX6QDL_PAD_GPIO_2__GPIO1_IO02  0x180B1 //gpio_res_6
+				MX6QDL_PAD_GPIO_3__GPIO1_IO03  0x180B1 //gpio_res_7
+				MX6QDL_PAD_GPIO_4__GPIO1_IO04  0x180B1 //gpio_res_8
+				
+				MX6QDL_PAD_GPIO_16__GPIO7_IO11  0x180B1 //gpio_res_9
+				MX6QDL_PAD_GPIO_17__GPIO7_IO12  0x180B1 //gpio_res_10
+				
+														 //0x100B1 - 1<<16 | 2 << 6 | 6 << 3 | 1<< 0 
+				MX6QDL_PAD_KEY_COL2__ECSPI1_SS1 0x0100B1 //used for memory purposes. see pinout.ods for details.
+			>;
+		};
+	};
+};
+
+
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+	status = "okay";
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart2>;
+	status = "okay";
+};
+
+&uart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart3>;
+	status = "okay";
+};
+
+&uart4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart4>;
+	status = "okay";
+};
+
+&uart5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart5>;
+	rs485_txen-gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+};
+
+
+&usdhc1 {
+	pinctrl-names = "default";
+	pinctrl-0     = <&pinctrl_usdhc1>;
+	non-removable;
+	fsl,wp-controller;
+	keep-power-in-suspend;
+	bus-width     = <4>;
+	max-frequency = <50000000>;
+	status = "okay";
+};
+
+&usdhc3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc3>;
+	non-removable;
+	fsl,wp-controller;
+	keep-power-in-suspend;
+	bus-width     = <8>;
+	max-frequency = <50000000>;
+	status = "okay";
+};
+
+
+
+
