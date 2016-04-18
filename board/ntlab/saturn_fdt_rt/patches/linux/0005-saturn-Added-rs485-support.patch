@@ -1,0 +1,102 @@
+From 549a82f0d932e29ae19800791ed6c27f94869a08 Mon Sep 17 00:00:00 2001
+From: Andrey Mihadyuk <mihadyuk@ntlab.com>
+Date: Mon, 18 Apr 2016 09:20:53 +0300
+Subject: [PATCH] saturn: Added rs485 support.
+
+---
+ drivers/tty/serial/imx.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index 78b4a8e..c3bcdaf 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -53,6 +53,7 @@
+ #include <asm/irq.h>
+ #include <linux/platform_data/serial-imx.h>
+ #include <linux/platform_data/dma-imx.h>
++#include <linux/gpio/consumer.h>
+ 
+ /* Register definitions */
+ #define URXD0 0x0  /* Receiver Register */
+@@ -250,6 +251,7 @@ struct imx_port {
+ 	unsigned int            saved_reg[10];
+ #define DMA_TX_IS_WORKING 1
+ 	unsigned long		flags;
++	struct gpio_desc 	*gpio_rs485_txen;
+ };
+ 
+ struct imx_port_ucrs {
+@@ -449,6 +451,16 @@ static void imx_stop_tx(struct uart_port *port)
+ 
+ 	temp = readl(sport->port.membase + UCR1);
+ 	writel(temp & ~UCR1_TXMPTYEN, sport->port.membase + UCR1);
++
++	if (sport->gpio_rs485_txen) {
++		/* wait for finish tx operations.*/
++		while (!(readl(port->membase + USR2) & USR2_TXDC)) {
++			udelay(5);
++			barrier();
++		}
++                /*printk(KERN_WARNING "rs485: 0");*/
++		gpiod_set_value(sport->gpio_rs485_txen, 0);
++	}
+ }
+ 
+ /*
+@@ -608,6 +620,11 @@ static void imx_start_tx(struct uart_port *port)
+ 	struct imx_port *sport = (struct imx_port *)port;
+ 	unsigned long temp;
+ 
++	if (sport->gpio_rs485_txen) {
++                /*printk(KERN_WARNING "rs485: 1");*/
++		gpiod_set_value(sport->gpio_rs485_txen, 1);
++	}
++
+ 	if (USE_IRDA(sport)) {
+ 		/* half duplex in IrDA mode; have to disable receive mode */
+ 		temp = readl(sport->port.membase + UCR4);
+@@ -2011,6 +2028,7 @@ static int serial_imx_probe_dt(struct imx_port *sport,
+ 	const struct of_device_id *of_id =
+ 			of_match_device(imx_uart_dt_ids, &pdev->dev);
+ 	int ret;
++	struct gpio_desc *rs485_txen;
+ 
+ 	if (!np)
+ 		/* no device tree device */
+@@ -2032,6 +2050,17 @@ static int serial_imx_probe_dt(struct imx_port *sport,
+ 	if (of_get_property(np, "fsl,dte-mode", NULL))
+ 		sport->dte_mode = 1;
+ 
++	rs485_txen = gpiod_get(&pdev->dev, "rs485_txen");
++	if (IS_ERR(rs485_txen)) {
++                /*printk(KERN_WARNING "rs485: unable to open gpio err: %d, dev: %d", (int)rs485_txen, (int)sport->port.dev);*/
++		sport->gpio_rs485_txen = 0;
++	}
++	else {
++                /*printk(KERN_WARNING "rs485: gpio %d initialized.", desc_to_gpio(rs485_txen));*/
++        gpiod_direction_output(rs485_txen, 0);
++		sport->gpio_rs485_txen = rs485_txen;
++	}
++
+ 	sport->devdata = of_id->data;
+ 
+ 	return 0;
+@@ -2135,6 +2164,14 @@ static int serial_imx_remove(struct platform_device *pdev)
+ {
+ 	struct imx_port *sport = platform_get_drvdata(pdev);
+ 
++	if (sport->gpio_rs485_txen) {
++		/*
++		 * it seems there is no function to free gpio pin.
++		 * */
++		/*gpiod_free(sport->gpio_rs485_txen);*/
++                /*printk(KERN_WARNING "rs485: gpio released.");*/
++		sport->gpio_rs485_txen = 0;
++	}
+ 	return uart_remove_one_port(&imx_reg, &sport->port);
+ }
+ 
+-- 
+2.8.0
+
