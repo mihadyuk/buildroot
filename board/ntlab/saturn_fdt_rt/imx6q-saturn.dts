@@ -189,7 +189,7 @@
 &uart5 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart5>;
-	rs485_txen-gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
+	//rs485_txen-gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 };
 
