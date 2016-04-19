@@ -1,0 +1,4 @@
+Don't use saturn_fdt-rt image. It requires more testing
+and reworking navigator project.
+Also it is not possible to duplex control from kernel space.
+I don't know why.
