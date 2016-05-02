@@ -142,5 +142,5 @@ endef
 
 barebox-package=$(call inner-barebox-package,$(call UPPERCASE,$(pkgname)))
 
-# instantiate this barebox package
-$(eval $(barebox-package))
+include boot/barebox/barebox/barebox.mk
+include boot/barebox/barebox-aux/barebox-aux.mk
