@@ -1,5 +1,14 @@
+From 66822d7627a3eac69658027481252aa9f28b7462 Mon Sep 17 00:00:00 2001
+From: Andrey Mihadyuk <mihadyuk@ntlab.com>
+Date: Tue, 3 May 2016 15:35:10 +0300
+Subject: [PATCH] saturn: Added rs485 support.
+
+---
+ drivers/tty/serial/imx.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
 diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
-index 01aa52f..1f57eedf 100644
+index 016e4be..28ce3ad 100644
 --- a/drivers/tty/serial/imx.c
 +++ b/drivers/tty/serial/imx.c
 @@ -43,6 +43,7 @@
@@ -10,15 +19,15 @@ index 01aa52f..1f57eedf 100644
  
  /* Register definitions */
  #define URXD0 0x0  /* Receiver Register */
-@@ -216,6 +217,7 @@ struct imx_port {
- 	unsigned int		tx_bytes;
- 	unsigned int		dma_tx_nents;
+@@ -219,6 +220,7 @@ struct imx_port {
  	wait_queue_head_t	dma_wait;
+ 	unsigned int            saved_reg[10];
+ 	bool			context_saved;
 +	struct gpio_desc 	*gpio_rs485_txen;
  };
  
  struct imx_port_ucrs {
-@@ -382,6 +384,15 @@ static void imx_stop_tx(struct uart_port *port)
+@@ -385,6 +387,15 @@ static void imx_stop_tx(struct uart_port *port)
  		temp &= ~UCR4_TCEN;
  		writel(temp, port->membase + UCR4);
  	}
@@ -34,7 +43,7 @@ index 01aa52f..1f57eedf 100644
  }
  
  /*
-@@ -575,6 +586,10 @@ static void imx_start_tx(struct uart_port *port)
+@@ -578,6 +589,10 @@ static void imx_start_tx(struct uart_port *port)
  	struct imx_port *sport = (struct imx_port *)port;
  	unsigned long temp;
  
@@ -45,7 +54,7 @@ index 01aa52f..1f57eedf 100644
  	if (port->rs485.flags & SER_RS485_ENABLED) {
  		/* enable transmitter and shifter empty irq */
  		temp = readl(port->membase + UCR2);
-@@ -1854,6 +1869,7 @@ static int serial_imx_probe_dt(struct imx_port *sport,
+@@ -1860,6 +1875,7 @@ static int serial_imx_probe_dt(struct imx_port *sport,
  	const struct of_device_id *of_id =
  			of_match_device(imx_uart_dt_ids, &pdev->dev);
  	int ret;
@@ -53,7 +62,7 @@ index 01aa52f..1f57eedf 100644
  
  	if (!np)
  		/* no device tree device */
-@@ -1872,6 +1888,16 @@ static int serial_imx_probe_dt(struct imx_port *sport,
+@@ -1878,6 +1894,16 @@ static int serial_imx_probe_dt(struct imx_port *sport,
  	if (of_get_property(np, "fsl,dte-mode", NULL))
  		sport->dte_mode = 1;
  
@@ -70,7 +79,7 @@ index 01aa52f..1f57eedf 100644
  	sport->devdata = of_id->data;
  
  	return 0;
-@@ -1990,6 +2016,14 @@ static int serial_imx_remove(struct platform_device *pdev)
+@@ -2009,6 +2035,14 @@ static int serial_imx_remove(struct platform_device *pdev)
  {
  	struct imx_port *sport = platform_get_drvdata(pdev);
  
@@ -85,3 +94,6 @@ index 01aa52f..1f57eedf 100644
  	return uart_remove_one_port(&imx_reg, &sport->port);
  }
  
+-- 
+2.8.2
+
