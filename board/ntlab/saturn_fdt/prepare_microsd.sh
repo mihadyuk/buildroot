@@ -22,6 +22,7 @@ sudo cp images/u-boot.imx           /mnt/root
 sudo cp images/u-boot-emmc.imx      /mnt/root
 sudo cp images/uboot-env.bin        /mnt/root
 sudo cp images/rootfs.tar           /mnt/root
+sudo cp images/fetch-log.sh         /mnt/root
 
 sudo umount /mnt
 
