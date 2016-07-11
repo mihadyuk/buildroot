@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #LOG_DIR=$1
 
 if [ -d "$1" ]; then
