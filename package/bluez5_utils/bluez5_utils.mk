@@ -12,9 +12,6 @@ BLUEZ5_UTILS_DEPENDENCIES = dbus libglib2
 BLUEZ5_UTILS_LICENSE = GPLv2+, LGPLv2.1+
 BLUEZ5_UTILS_LICENSE_FILES = COPYING COPYING.LIB
 
-# 0001-Link-mcaptest-with-lrt.patch
-BLUEZ5_UTILS_AUTORECONF = YES
-
 BLUEZ5_UTILS_CONF_OPTS = 	\
 	--enable-tools 		\
 	--enable-library 	\
@@ -80,9 +77,11 @@ BLUEZ5_UTILS_CONF_OPTS += --disable-systemd
 endif
 
 define BLUEZ5_UTILS_INSTALL_INIT_SYSTEMD
-	mkdir -p $(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/
+	mkdir -p $(TARGET_DIR)/etc/systemd/system/bluetooth.target.wants
 	ln -fs ../../../../usr/lib/systemd/system/bluetooth.service \
-		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/bluetooth.service
+		$(TARGET_DIR)/etc/systemd/system/bluetooth.target.wants/bluetooth.service
+	ln -fs ../../../../usr/lib/systemd/system/bluetooth.service \
+		$(TARGET_DIR)/etc/systemd/system/dbus-org.bluez.service
 endef
 
 $(eval $(autotools-package))
