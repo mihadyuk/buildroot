@@ -1,0 +1,45 @@
+Установка системы на внутреннюю eMMC блока.
+
+1. Вставляем загрузочную microsd карточку
+   (как готовить см. how to prepare boot microsd.txt)
+   Подаем питание, загружаемся.
+
+2. Далее форматируем eMMC на два раздела утилитой fdisk.
+   Под первый отводим 500 МБ, под второй все остальное. Под MBR оставляем 2 МБ.
+   таблица разделов должна выглядеть так
+
+   Disk /dev/mmcblk1: 59.5 GiB, 63887638528 bytes, 124780544 sectors
+   Units: sectors of 1 * 512 = 512 bytes
+   Sector size (logical/physical): 512 bytes / 512 bytes
+   I/O size (minimum/optimal): 512 bytes / 512 bytes
+   Disklabel type: dos
+   Disk identifier: 0x00000000
+
+   Device         Boot   Start       End   Sectors   Size Id Type
+   /dev/mmcblk1p1         4032   1004095   1000064 488.3M 83 Linux
+   /dev/mmcblk1p2      1004096 124780543 123776448    59G 83 Linux
+
+2.1 Форматируем созданные разделы в ext4
+    #mkfs.ext4 / dev/mmclk1p1
+    #mkfs.ext4 / dev/mmclk1p2
+
+    Подготовка eMMC завершена теперь можно установить систему и
+    загрузчик.
+
+3. Устанавливаем систему на eMMC для чего выполняем команду
+
+    # ./flash_emmc_linux.sh
+
+4. Устанавливаем загрузчик
+
+    # ./flash_emmc_uboot.sh
+
+    Все готово. теперь выключаем питание, достаем карточку, включаем питание и
+    грузимся с eMMC.
+
+
+
+
+
+
+
