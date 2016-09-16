@@ -1,0 +1,4 @@
+mount -n -t proc proc /proc
+echo 0x0100 >/proc/sys/kernel/real-root-dev
+
+look at kernel/documentation/initrd.txt at the end.
