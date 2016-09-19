@@ -10,6 +10,7 @@
 #sysfs on /sys type sysfs (rw,relatime)
 #
 
+#use this command to mount fs from crashkernel
 mount -n -t proc proc /proc
 echo 0x0100 >/proc/sys/kernel/real-root-dev
 
