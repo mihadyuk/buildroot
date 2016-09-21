@@ -30,7 +30,8 @@ sudo cp images/rootfs.tar           /mnt/root
 sudo cp fetch-log.sh                /mnt/root
 
 #copy scripts to debug kernel
-sudo cp run-kexec.sh    /mnt/root/
+sudo cp dump-vmcore.sh  /mnt/root
+sudo cp run-kexec.sh    /mnt/root
 sudo cp mount-fs.sh     /mnt/root
 sudo cp S99run-kexec.sh /mnt/etc/init.d
 
