@@ -10,6 +10,7 @@ function copy() {
 copy flash_emmc_linux.sh $dst_dir
 copy flash_emmc_uboot.sh $dst_dir
 copy flash_linux.sh $dst_dir
+copy flash_linux_kernel.sh $dst_dir
 copy flash_uboot.sh $dst_dir
 copy prepare_microsd.sh $dst_dir
 copy update_linux.sh $dst_dir
