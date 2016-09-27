@@ -192,7 +192,7 @@
 	pinctrl-0 = <&pinctrl_uart5>;
         uart-has-rtscts;
         rs485-rts-delay = <0 0>;
-        linux,rs485-enabled-at-boot-time;
+        //linux,rs485-enabled-at-boot-time;
 	//rs485_txen-gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 };
