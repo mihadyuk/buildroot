@@ -19,6 +19,7 @@ copy S01mount-second-drive.sh $dst_dir
 copy run-kexec.sh $dst_dir
 copy S99run-kexec.sh $dst_dir
 copy mount-fs.sh $dst_dir
+copy mount-tracing.sh $dst_dir
 copy dump-vmcore.sh $dst_dir
 copy fetch-log.sh $dst_dir
 copy *.patch $dst_dir
