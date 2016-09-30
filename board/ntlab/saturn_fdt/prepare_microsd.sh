@@ -34,6 +34,7 @@ sudo cp dump-vmcore.sh  /mnt/root
 sudo cp run-kexec.sh    /mnt/root
 sudo cp mount-fs.sh     /mnt/root
 sudo cp S99run-kexec.sh /mnt/etc/init.d
+sudo cp mount-tracing.sh /mnt/root
 
 sudo umount /mnt
 
