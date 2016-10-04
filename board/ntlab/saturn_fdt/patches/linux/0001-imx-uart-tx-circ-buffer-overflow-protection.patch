@@ -1,0 +1,28 @@
+From 6558f9429ac63f531d51e7b5cc03a06e12348e72 Mon Sep 17 00:00:00 2001
+From: Andrey Mihadyuk <mihadyuk@ntlab.com>
+Date: Fri, 30 Sep 2016 15:40:53 +0300
+Subject: [PATCH 1/2] imx uart: tx circ buffer overflow protection.
+
+# Conflicts:
+#	drivers/tty/serial/imx.c
+---
+ drivers/tty/serial/imx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index 0df2b1c..720105e 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -476,7 +476,8 @@ static void dma_tx_callback(void *data)
+ 	writel(temp, sport->port.membase + UCR1);
+ 
+ 	/* update the stat */
+-	xmit->tail = (xmit->tail + sport->tx_bytes) & (UART_XMIT_SIZE - 1);
++	if (!uart_circ_empty(xmit))
++		xmit->tail = (xmit->tail + sport->tx_bytes) & (UART_XMIT_SIZE - 1);
+ 	sport->port.icount.tx += sport->tx_bytes;
+ 
+ 	dev_dbg(sport->port.dev, "we finish the TX DMA.\n");
+-- 
+2.10.0
+

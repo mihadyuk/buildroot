@@ -1,0 +1,45 @@
+From 595f0841ddfec1da37713700b19eb65de2679c58 Mon Sep 17 00:00:00 2001
+From: Andrey Mihadyuk <mihadyuk@ntlab.com>
+Date: Mon, 3 Oct 2016 15:40:28 +0300
+Subject: [PATCH 2/2] imx uart: Fix tx buffer overflow.
+
+# Conflicts:
+#	drivers/tty/serial/imx.c
+---
+ drivers/tty/serial/imx.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index 720105e..768d245 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -443,13 +443,19 @@ static inline void imx_transmit_buffer(struct imx_port *sport)
+ 		}
+ 	}
+ 
+-	while (!uart_circ_empty(xmit) &&
+-	       !(readl(sport->port.membase + uts_reg(sport)) & UTS_TXFULL)) {
+-		/* send xmit->buf[xmit->tail]
+-		 * out the port here */
+-		writel(xmit->buf[xmit->tail], sport->port.membase + URTX0);
+-		xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
+-		sport->port.icount.tx++;
++
++	/*
++	 * It seems code below should not be executed when dma is enabled.
++	 * */
++	if (!sport->dma_is_enabled) {
++		while (!uart_circ_empty(xmit) &&
++			   !(readl(sport->port.membase + uts_reg(sport)) & UTS_TXFULL)) {
++			/* send xmit->buf[xmit->tail]
++			 * out the port here */
++			writel(xmit->buf[xmit->tail], sport->port.membase + URTX0);
++			xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
++			sport->port.icount.tx++;
++		}
+ 	}
+ 
+ 	if (uart_circ_chars_pending(xmit) < WAKEUP_CHARS)
+-- 
+2.10.0
+
