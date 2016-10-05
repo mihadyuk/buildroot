@@ -1,0 +1,36 @@
+From 1b0324ea90d72c922f35f73b82264705cff33d00 Mon Sep 17 00:00:00 2001
+From: Andrey Mihadyuk <mihadyuk@ntlab.com>
+Date: Wed, 5 Oct 2016 10:47:20 +0300
+Subject: [PATCH 2/2] imx uart: Moved "rx fifo overrun" into trace buffer.
+
+It decreases data losses when uart receives data.
+---
+ drivers/tty/serial/imx.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index fa08a09..d8fcbe5 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -44,6 +44,8 @@
+ #include <linux/platform_data/serial-imx.h>
+ #include <linux/platform_data/dma-imx.h>
+ 
++#include <linux/ftrace.h>
++
+ /* Register definitions */
+ #define URXD0 0x0  /* Receiver Register */
+ #define URTX0 0x40 /* Transmitter Register */
+@@ -769,7 +771,8 @@ static irqreturn_t imx_int(int irq, void *dev_id)
+ 		writel(USR1_AWAKE, sport->port.membase + USR1);
+ 
+ 	if (sts2 & USR2_ORE) {
+-		dev_err(sport->port.dev, "Rx FIFO overrun\n");
++		/*dev_err(sport->port.dev, "Rx FIFO overrun\n");*/
++		trace_printk("%p: Rx FIFO overrun \n", sport->port.membase);
+ 		sport->port.icount.overrun++;
+ 		writel(USR2_ORE, sport->port.membase + USR2);
+ 	}
+-- 
+2.10.0
+
