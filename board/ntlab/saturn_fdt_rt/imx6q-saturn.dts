@@ -76,8 +76,8 @@
 				MX6QDL_PAD_CSI0_DAT14__UART5_TX_DATA	0x1b0b1
 				MX6QDL_PAD_CSI0_DAT15__UART5_RX_DATA	0x1b0b1
 				//MX6QDL_PAD_EIM_D19__UART1_CTS_B		0x1b0b1
-				//MX6QDL_PAD_CSI0_DAT19__GPIO6_IO05		0x180B1 //0x1b0b1
-                MX6QDL_PAD_CSI0_DAT19__UART5_CTS_B      0x180B1
+				//MX6QDL_PAD_CSI0_DAT19__GPIO6_IO05	0x180B1 //0x1b0b1
+                                MX6QDL_PAD_CSI0_DAT19__UART5_CTS_B      0x180B1
 			>;
 		};
 
@@ -191,9 +191,9 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart5>;
         fsl,uart-has-rtscts;
+        rs485-rts-delay = <0 0>;
+        //linux,rs485-enabled-at-boot-time;
 	//rs485_txen-gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
-    //linux,rs485-enabled-at-boot-time;
-	//rs485-rts-delay = <0 0>;
 	status = "okay";
 };
 
