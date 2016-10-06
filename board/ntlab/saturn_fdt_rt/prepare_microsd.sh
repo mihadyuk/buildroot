@@ -4,7 +4,12 @@
 
 #copy linux onto boot partition
 #sudo mkfs.ext4 /dev/sdb1
-sudo mount /dev/sdb1 /mnt
+#./prepare_microsd.sh /dev/sdb1
+
+SD=$1
+
+sudo mount $1 /mnt || exit $?
+
 sudo rm -Rf /mnt/*
 #create root fs
 sudo tar xf images/rootfs.tar -C /mnt
@@ -22,6 +27,15 @@ sudo cp images/u-boot.imx           /mnt/root
 sudo cp images/u-boot-emmc.imx      /mnt/root
 sudo cp images/uboot-env.bin        /mnt/root
 sudo cp images/rootfs.tar           /mnt/root
+sudo cp fetch-log.sh                /mnt/root
+
+#copy scripts to debug kernel
+sudo cp dump-vmcore.sh  /mnt/root
+sudo cp run-kexec.sh    /mnt/root
+sudo cp mount-fs.sh     /mnt/root
+sudo cp S99run-kexec.sh /mnt/etc/init.d
+sudo cp mount-tracing.sh /mnt/root
+sudo cp trace-syscalls.sh /mnt/root
 
 sudo umount /mnt
 
