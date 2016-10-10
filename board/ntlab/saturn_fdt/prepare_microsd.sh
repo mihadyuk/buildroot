@@ -8,7 +8,7 @@
 
 SD=$1
 
-sudo mount $1 /mnt || exit $?
+sudo mount "$SD" /mnt || exit $?
 
 sudo rm -Rf /mnt/*
 #create root fs
