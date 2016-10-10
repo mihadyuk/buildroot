@@ -4,7 +4,7 @@
 #./flash_linux.sh /dev/sdb1
 SD=$1
 
-sudo mount $1 /mnt || exit $?
+sudo mount "$SD" /mnt || exit $?
 
 sudo rm -R /mnt/*
 sudo tar xf images/rootfs.tar -C /mnt

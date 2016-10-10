@@ -7,7 +7,7 @@ case "$1" in
         mount /dev/mmcblk0p2 /disk-data
 	;;
   stop)
-	echo -n "Unmounting second drive..."
+	echo "Unmounting second drive..."
         umount /disk-data
 	;;
   restart|reload)
