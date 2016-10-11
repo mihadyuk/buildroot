@@ -17,6 +17,7 @@ function filelist()
                 CHECKSUM=$(md5sum "$F" | awk '{print $1}')
 		echo "$NAME"\;"$SIZE"\;"$CHECKSUM"\; >> "$2"
 	done < tmp
+        rm tmp
         cd "$prev_dir" || exit
 }
 
