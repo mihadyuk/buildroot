@@ -8,7 +8,7 @@ function remove-uboot() {
 wandboard_file=wandboard.c
 wandboard_fullpath=build/uboot-saturn_2016.03/board/wandboard
 wandboard_fullpath_file=$wandboard_fullpath/$wandboard_file
-uboot_patch_dir=/home/user/workspace/buildroot-ntl/board/ntlab/saturn_fdt/patches/u-boot
+uboot_patch_dir=./patches/u-boot
 
 echo $wandboard_file
 echo $wandboard_fullpath_file
