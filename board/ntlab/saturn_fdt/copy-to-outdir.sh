@@ -23,6 +23,7 @@ copy mount-tracing.sh "$dst_dir"
 copy trace-syscalls.sh "$dst_dir"
 copy dump-vmcore.sh "$dst_dir"
 copy fetch-log.sh "$dst_dir"
+copy format-ext4.sh "$dst_dir"
 #copy ./*.patch "$dst_dir"
 patch_dir="$dst_dir"/patches
 mkdir -p "$patch_dir"
