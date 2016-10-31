@@ -16,6 +16,7 @@ copy update_linux.sh $dst_dir
 copy update_uboot.sh $dst_dir
 copy S01mount-second-drive.sh $dst_dir
 copy fetch-log.sh $dst_dir
+copy format-ext4.sh $dst_dir
 #copy *.patch $dst_dir
 patch_dir="$dst_dir"/patches
 mkdir -p "$patch_dir"
