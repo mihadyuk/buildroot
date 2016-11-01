@@ -19,6 +19,8 @@ sudo cp flash_emmc_linux.sh      /mnt/root
 sudo cp flash_emmc_uboot.sh      /mnt/root
 sudo cp S01mount-second-drive.sh /mnt/root
 sudo cp format-emmc-ext4.sh      /mnt/root
+sudo cp part-emmc.sh             /mnt/root
+sudo cp deploy-emmc.sh           /mnt/root
 
 #create dir for logs, data, etc
 sudo mkdir -p /mnt/disk-data
