@@ -18,6 +18,11 @@ copy S01mount-second-drive.sh $dst_dir
 copy fetch-log.sh $dst_dir
 copy format-ext4.sh $dst_dir
 copy format-emmc-ext4.sh $dst_dir
+copy part-sd.sh "$dst_dir"
+copy part-emmc.sh "$dst_dir"
+copy deploy-sd.sh "$dst_dir"
+copy deploy-emmc.sh "$dst_dir"
+
 #copy *.patch $dst_dir
 patch_dir="$dst_dir"/patches
 mkdir -p "$patch_dir"
