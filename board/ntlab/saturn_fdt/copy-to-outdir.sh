@@ -4,20 +4,20 @@ dst_dir=$1
 
 function copy() {
    echo "copying $1 to $2"
-   cp $1 $2
+   cp "$1" "$2"
 }
 
-copy flash_emmc_linux.sh $dst_dir
-copy flash_emmc_uboot.sh $dst_dir
-copy flash_linux.sh $dst_dir
-copy flash_uboot.sh $dst_dir
-copy prepare_microsd.sh $dst_dir
-copy update_linux.sh $dst_dir
-copy update_uboot.sh $dst_dir
-copy S01mount-second-drive.sh $dst_dir
-copy fetch-log.sh $dst_dir
-copy format-ext4.sh $dst_dir
-copy format-emmc-ext4.sh $dst_dir
+copy flash_emmc_linux.sh "$dst_dir"
+copy flash_emmc_uboot.sh "$dst_dir"
+copy flash_linux.sh "$dst_dir"
+copy flash_uboot.sh "$dst_dir"
+copy prepare_microsd.sh "$dst_dir"
+copy update_linux.sh "$dst_dir"
+copy update_uboot.sh "$dst_dir"
+copy S01mount-second-drive.sh "$dst_dir"
+copy fetch-log.sh "$dst_dir"
+copy format-ext4.sh "$dst_dir"
+copy format-emmc-ext4.sh "$dst_dir"
 copy part-sd.sh "$dst_dir"
 copy part-emmc.sh "$dst_dir"
 copy deploy-sd.sh "$dst_dir"
