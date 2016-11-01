@@ -20,8 +20,8 @@
    /dev/mmcblk1p2      1004096 124780543 123776448    59G 83 Linux
 
 2.1 Форматируем созданные разделы в ext4
-    #mkfs.ext4 / dev/mmclk1p1
-    #mkfs.ext4 / dev/mmclk1p2
+    #./format-emmc-ext4.sh /dev/mmclk1p1
+    #./format-emmc-ext4.sh /dev/mmclk1p2
 
     Подготовка eMMC завершена теперь можно установить систему и
     загрузчик.
