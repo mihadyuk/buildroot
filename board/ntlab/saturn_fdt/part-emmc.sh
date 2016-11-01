@@ -30,9 +30,9 @@ echo "$part2_start"  # first sector
 echo "$part2_end"    # last sector
 echo w # save changes
 ) | fdisk "$emmc_disk"
-
-if [ $? -ne 0 ];then
-   exit $?
+retval=$?
+if [ "$retval" -ne 0 ];then
+   exit "$retval"
 fi
 
 ./format-emmc-ext4.sh "$emmc_disk"p"$part1_num"
