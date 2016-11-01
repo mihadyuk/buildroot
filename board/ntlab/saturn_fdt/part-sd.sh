@@ -11,9 +11,9 @@ echo   # first sector (default 2048)
 echo   # last sector
 echo w # save changes
 ) | sudo fdisk "$SD"
-
-if [ $? -ne 0 ]; then
-    exit $?
+retval=$?
+if [ "$retval" -ne 0 ]; then
+    exit "$retval"
 fi
 
 ./format-ext4.sh "$SD""$part_num"
