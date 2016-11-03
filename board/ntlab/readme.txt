@@ -1,1 +1,1 @@
-NTLab boards are here.
+NTLab boards.
