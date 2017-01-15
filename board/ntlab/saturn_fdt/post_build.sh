@@ -9,6 +9,11 @@ dst_dir=$3
  ./copy-to-outdir.sh "$dst_dir"
  #echo "current dir: $(pwd)"
 )
+
+(
+ cd "$dst_dir" || exit $?
+ ./update_uboot.sh
+)
 #echo "src dir: '$src_dir'"
 #echo "dst dir: '$dst_dir'"
 #exit 1
